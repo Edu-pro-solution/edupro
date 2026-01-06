@@ -11,6 +11,7 @@ import Services from "./pages/Services";
 
 import Innovate from "./pages/Innovate";
 import PageTitleSetter from "./pages/PageTitleSetter";
+import Pin from "./pages/Pin";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home2 />} />
           <Route path="/about" element={<About />} />
+          <Route path="/pin" element={<Pin />} />
           <Route path="/services" element={<Services />} />
           <Route path="/download" element={<Download />} />
           <Route path="/pricing" element={<Pricing />} />
