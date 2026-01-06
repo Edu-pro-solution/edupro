@@ -12,6 +12,7 @@ import Services from "./pages/Services";
 import Innovate from "./pages/Innovate";
 import PageTitleSetter from "./pages/PageTitleSetter";
 import Pin from "./pages/Pin";
+import Mobile from "./pages/Mobile";
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
           <Route path="/pin" element={<Pin />} />
           <Route path="/services" element={<Services />} />
           <Route path="/download" element={<Download />} />
+          <Route path="/mobile-app" element={<Mobile />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />

@@ -8,6 +8,9 @@ import r3 from "./r3.jpg";
 import backs from "./footimg.jpg";
 import r4 from "./r4.jpg";
 import Header from "./Header";
+import androidIcon from "./android.jpeg";
+import iosIcon from "./ios.png";
+
 const Mobile = () => {
   const backgroundStyle = {
     backgroundImage: `url('/static/media/breads.png')`,
@@ -65,10 +68,7 @@ const Mobile = () => {
               >
                 <div class="single-feature-2 mb-55">
                   <div class="feature-icon-2">
-                    <img
-                      src="assets/img/service/mac.png"
-                      alt="image not found"
-                    />
+           <img src={androidIcon} alt="Android app" />
                   </div>
                   <div class="feature-content-2">
                     <h4 class="feature-content-title-2">
@@ -108,10 +108,7 @@ const Mobile = () => {
               >
                 <div class="single-feature-2 mb-55">
                   <div class="feature-icon-2">
-                    <img
-                      src="assets/img/service/window.png"
-                      alt="image not found"
-                    />
+                 <img src={iosIcon} alt="iOS app" />
                   </div>
                   <div class="feature-content-2">
                     <h4 class="feature-content-title-2">
@@ -153,215 +150,6 @@ const Mobile = () => {
           </div>
         </div>
 
-        {/* <div class="client-area pt-40 pb-115 mb-110" data-bg-color="#eeeff4">
-          <div class="container">
-            <div class="row">
-              <div class="col-xxl-12">
-                <div class="client-s-title-parent mb-28">
-                  <h4 class="client-s-title">
-                    6 Tips to
-                    <br />
-                    Our satisfy your clients
-                  </h4>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-xxl-12">
-                  <div class="brand-active-2 swiper-container">
-                    <div class="swiper-wrapper">
-                      <div class="single-brand swiper-slide">
-                        <img
-                          src="assets/img/brand/band-1-1.webp"
-                          width="105"
-                          alt="image not found"
-                        />
-                      </div>
-                      <div class="single-brand swiper-slide">
-                        <img
-                          src="assets/img/brand/brand-1-2.webp"
-                          width="105"
-                          alt="image not found"
-                        />
-                      </div>
-                      <div class="single-brand swiper-slide">
-                        <img
-                          src="assets/img/brand/brand-1-3.webp"
-                          width="105"
-                          alt="image not found"
-                        />
-                      </div>
-                      <div class="single-brand swiper-slide">
-                        <img
-                          src="assets/img/brand/brand-1-4.webp"
-                          width="105"
-                          alt="image not found"
-                        />
-                      </div>
-                      <div class="single-brand swiper-slide">
-                        <img
-                          src="assets/img/brand/brand-1-5.webp"
-                          width="105"
-                          alt="image not found"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> */}
-
-        {/* <div class="team-area pb-130">
-          <div class="container">
-            <div class="row mb-45">
-              <div class="col-xxl-12">
-                <div class="section-title-2 text-center">
-                  <h3
-                    class="s-title wow fadeInUp visile-br-lg"
-                    data-wow-delay=".2s"
-                  >
-                    Meet our
-                    <br />
-                    The team member
-                  </h3>
-                  <p class="s-desc wow fadeInUp" data-wow-delay=".4s">
-                    Naff the little rotter have gutted mate James cuppa baking
-                    legged.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="row mb-45">
-              <div
-                class="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-6 wow fadeInUp"
-                data-wow-delay=".2s"
-              >
-                <div class="single-team mb-30">
-                  <div class="thumb">
-                    <img
-                      src="assets/img/team/team-1.webp"
-                      alt="image not found"
-                    />
-                  </div>
-                  <div class="content text-center">
-                    <div class="team-desc">
-                      <a href="team.html" class="job">
-                        Marketing
-                      </a>
-                      <h5>
-                        <a href="team-details.html" class="title">
-                          Druid Wensleydale
-                        </a>
-                      </h5>
-                    </div>
-                    <div class="team-social">
-                      <a href="#">
-                        <i class="fab fa-facebook-f"></i>
-                      </a>
-                      <a href="#">
-                        <i class="fab fa-twitter"></i>
-                      </a>
-                      <a href="#">
-                        <i class="fab fa-pinterest-p"></i>
-                      </a>
-                      <a href="#">
-                        <i class="fab fa-vimeo-v"></i>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="col-xxl-4 col-xl-4  col-lg-4 col-md-6 col-sm-6 wow fadeInUp"
-                data-wow-delay=".4s"
-              >
-                <div class="single-team mb-30">
-                  <div class="thumb">
-                    <img
-                      src="assets/img/team/team-2.webp"
-                      alt="image not found"
-                    />
-                  </div>
-                  <div class="content text-center">
-                    <div class="team-desc">
-                      <a href="team.html" class="job">
-                        Teacher
-                      </a>
-                      <h5>
-                        <a href="team-details.html" class="title">
-                          Suraiya akter rika
-                        </a>
-                      </h5>
-                    </div>
-                    <div class="team-social">
-                      <a href="#">
-                        <i class="fab fa-facebook-f"></i>
-                      </a>
-                      <a href="#">
-                        <i class="fab fa-twitter"></i>
-                      </a>
-                      <a href="#">
-                        <i class="fab fa-pinterest-p"></i>
-                      </a>
-                      <a href="#">
-                        <i class="fab fa-vimeo-v"></i>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="col-xxl-4  col-xl-4  col-lg-4 col-md-6 col-sm-6 wow fadeInUp"
-                data-wow-delay=".6s"
-              >
-                <div class="single-team mb-30">
-                  <div class="thumb">
-                    <img
-                      src="assets/img/team/team-3.webp"
-                      alt="image not found"
-                    />
-                  </div>
-                  <div class="content text-center">
-                    <div class="team-desc">
-                      <a href="team.html" class="job">
-                        Designer
-                      </a>
-                      <h5>
-                        <a href="team-details.html" class="title">
-                          Malcolm Function
-                        </a>
-                      </h5>
-                    </div>
-                    <div class="team-social">
-                      <a href="#">
-                        <i class="fab fa-facebook-f"></i>
-                      </a>
-                      <a href="#">
-                        <i class="fab fa-twitter"></i>
-                      </a>
-                      <a href="#">
-                        <i class="fab fa-pinterest-p"></i>
-                      </a>
-                      <a href="#">
-                        <i class="fab fa-vimeo-v"></i>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-xxl-12">
-                <div class="text-center">
-                  <a href="team.html" class="team-action-btn">
-                    View All Team <i class="fal fa-arrow-right"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> */}
       </main>
       <footer class="footer-area pt-90">
         <div class=" container pb-80 has-border-bottom">
