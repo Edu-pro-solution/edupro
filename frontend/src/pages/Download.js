@@ -129,7 +129,7 @@ const Download = () => {
                       style={{ color: "#042954" }}
                     >
                       <a
-                       href="https://eduprodotng.s3.eu-north-1.amazonaws.com/Edu+Pro+Setup+1.0.0.exe"
+                       href="https://eduprodotng.s3.eu-north-1.amazonaws.com/Edu+Pro+Solution+1.0.0.exe"
                         download
                       >
                         <button
