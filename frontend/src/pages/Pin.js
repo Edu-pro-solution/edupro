@@ -23,7 +23,7 @@ const Pin = () => {
     setMessage("");
 
     try {
-      const res = await fetch("http://localhost:5001/api/pins/generate", {
+      const res = await fetch("https://eduproapi.vercel.app/api/pins/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ count }),
