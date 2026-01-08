@@ -79,7 +79,7 @@ const Mobile = () => {
                       style={{ color: "#042954" }}
                     >
                       <a
-                        href="https://eduprodotng.s3.eu-north-1.amazonaws.com/app-debug.apk"
+                        href="https://eduprodotng.s3.eu-north-1.amazonaws.com/eduproapp.apk"
                         download
                       >
                         <button
