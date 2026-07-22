@@ -45,15 +45,7 @@ const Innovate = () => {
   return (
     <>
       <main>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <img src={inn} alt="Innovate" className="inno" />
-        </div>
+     
         <div class="contact-area">
           <div class="container">
             <div class="row pb-140 justify-content-between">
@@ -149,7 +141,7 @@ const Innovate = () => {
                           />
                         </div>
                       </div>
-                      <div className="col-xl-12">
+                      {/* <div className="col-xl-12">
                         <div className="post-input post-input-2">
                           <label
                             htmlFor="business"
@@ -166,15 +158,14 @@ const Innovate = () => {
                             required
                           />
                         </div>
-                      </div>
+                      </div> */}
                       <div className="col-xl-12">
                         <div className="post-input post-input-2">
                           <label
                             htmlFor="problem"
                             className="post-input-label-defualt"
                           >
-                            What problem do you wish AI can solve for your
-                            business *
+                            What do you want to achieve at the end of the bootcamp
                           </label>
                           <textarea
                             id="problem"
@@ -192,7 +183,7 @@ const Innovate = () => {
                             htmlFor="hear"
                             className="post-input-label-defualt"
                           >
-                            How did you hear about this event *
+                            How did you hear about this bootcamp *
                           </label>
                           <select
                             name="hear"
@@ -242,8 +233,7 @@ const Innovate = () => {
                             htmlFor="plan"
                             className="post-input-label-defualt"
                           >
-                            Why do you think having a website will help your
-                            business *
+                            Why are you interest in Robotics and Coding *
                           </label>
                           <textarea
                             id="plan"

@@ -29,7 +29,7 @@ const App = () => {
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/innovation" element={<Innovate />} />
+          <Route path="/bootcamp" element={<Innovate />} />
         </Routes>
       </BrowserRouter>
     </HelmetProvider>
