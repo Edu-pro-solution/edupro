@@ -32,6 +32,7 @@ const COURSE_OPTIONS = [
 
 const Innovate = () => {
   const [formData, setFormData] = useState(initialState);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -41,12 +42,13 @@ const Innovate = () => {
 
   const handleCourseToggle = (course) => {
     setFormData((prev) => {
-      const already = prev.courseInterest.includes(course);
+      const currentList = prev.courseInterest || [];
+      const already = currentList.includes(course);
       return {
         ...prev,
         courseInterest: already
-          ? prev.courseInterest.filter((c) => c !== course)
-          : [...prev.courseInterest, course],
+          ? currentList.filter((c) => c !== course)
+          : [...currentList, course],
       };
     });
   };
@@ -54,15 +56,15 @@ const Innovate = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (formData.courseInterest.length === 0) {
+    if ((formData.courseInterest || []).length === 0) {
       toast.error("Please select at least one course");
       return;
     }
 
     try {
       await axios.post(`https://eduproapi.vercel.app/api/bootcamp`, formData);
-      toast.success("Registration submitted successfully");
-      navigate("/");
+      setShowSuccessModal(true);
+      setFormData(initialState);
     } catch (err) {
       console.error("Error registering:", err);
       toast.error("Unable to submit");
@@ -336,7 +338,7 @@ const Innovate = () => {
                               >
                                 <input
                                   type="checkbox"
-                                  checked={formData.courseInterest.includes(
+                                  checked={(formData.courseInterest || []).includes(
                                     course
                                   )}
                                   onChange={() => handleCourseToggle(course)}
@@ -427,6 +429,47 @@ const Innovate = () => {
                           ></textarea>
                         </div>
                       </div>
+                    </div>
+
+                    <div
+                      style={{
+                        background: "#f0f6ff",
+                        border: "1px solid #042954",
+                        borderRadius: "10px",
+                        padding: "20px 24px",
+                        marginBottom: "24px",
+                      }}
+                    >
+                      <p
+                        style={{
+                          fontWeight: 700,
+                          color: "#042954",
+                          marginBottom: "10px",
+                          fontSize: "15px",
+                        }}
+                      >
+                        Payment Details — ₦25,000 Registration Fee
+                      </p>
+                      <p style={{ color: "#042954", margin: "4px 0" }}>
+                        Bank: <strong>Access Bank</strong>
+                      </p>
+                      <p style={{ color: "#042954", margin: "4px 0" }}>
+                        Account Name: <strong>Olaniyi Hope Oluwaseun</strong>
+                      </p>
+                      <p style={{ color: "#042954", margin: "4px 0" }}>
+                        Account Number: <strong>1486693016</strong>
+                      </p>
+                      <p
+                        style={{
+                          color: "#042954",
+                          margin: "10px 0 0",
+                          fontSize: "13px",
+                        }}
+                      >
+                        Please make payment and keep your receipt/proof of
+                        payment. You may be asked to share it after
+                        registering.
+                      </p>
                     </div>
 
                     <button
@@ -586,6 +629,89 @@ const Innovate = () => {
           </div>
         </div>
       </footer>
+
+      {showSuccessModal && (
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(4, 41, 84, 0.6)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 9999,
+            padding: "16px",
+          }}
+        >
+          <div
+            style={{
+              background: "#ffffff",
+              borderRadius: "14px",
+              padding: "36px 32px",
+              maxWidth: "420px",
+              width: "100%",
+              textAlign: "center",
+              boxShadow: "0 20px 50px rgba(0,0,0,0.25)",
+            }}
+          >
+            <div
+              style={{
+                width: "60px",
+                height: "60px",
+                borderRadius: "50%",
+                background: "#e6f7ec",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                margin: "0 auto 18px",
+                fontSize: "30px",
+                color: "#1a9c4f",
+              }}
+            >
+              ✓
+            </div>
+            <h4 style={{ color: "#042954", marginBottom: "10px" }}>
+              Registration Successful!
+            </h4>
+            <p style={{ color: "#042954", marginBottom: "20px" }}>
+              Thank you for registering for the Coding &amp; Robotics
+              Bootcamp. Please complete payment of{" "}
+              <strong>₦25,000</strong> to the account below to secure your
+              spot.
+            </p>
+            <div
+              style={{
+                background: "#f0f6ff",
+                borderRadius: "10px",
+                padding: "16px",
+                marginBottom: "22px",
+                textAlign: "left",
+              }}
+            >
+              <p style={{ color: "#042954", margin: "4px 0" }}>
+                Bank: <strong>Access Bank</strong>
+              </p>
+              <p style={{ color: "#042954", margin: "4px 0" }}>
+                Account Name: <strong>Olaniyi Hope Oluwaseun</strong>
+              </p>
+              <p style={{ color: "#042954", margin: "4px 0" }}>
+                Account Number: <strong>1486693016</strong>
+              </p>
+            </div>
+            <button
+              type="button"
+              className="sasup-theme-btn sasup-theme-btn-2 transition-5"
+              onClick={() => {
+                setShowSuccessModal(false);
+                navigate("/");
+              }}
+              style={{ width: "100%" }}
+            >
+              Done
+            </button>
+          </div>
+        </div>
+      )}
 
       <ToastContainer />
     </>
