@@ -6,33 +6,38 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import "./innovate.css";
 
+// Internal state uses friendly names for the new form
 const initialState = {
   fullname: "",
   age: "",
-  school: "",
-  grade: "",
-  parentName: "",
-  parentPhone: "",
-  parentWhatsapp: "",
-  parentEmail: "",
+  organization: "", // school / workplace (optional)
+  level: "", // education level or occupation
+  guardianName: "", // optional, for learners under 18
+  phone: "",
+  whatsapp: "",
+  email: "",
   mode: "",
   courseInterest: [],
   experience: "",
-  medical: "",
   hear: "",
   comments: "",
 };
 
 const COURSE_OPTIONS = [
-  "Web & App Coding",
-  "Robotics & Electronics",
+  "Cyber Security",
+  "Web Development",
+  "Mobile App Development",
+  "AI & Automation",
   "Python Programming",
-  "Graphic Design Basics",
+  "Data Analysis",
+  "Robotics & Electronics",
+  "Graphic Design",
 ];
 
 const Innovate = () => {
   const [formData, setFormData] = useState(initialState);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -61,13 +66,43 @@ const Innovate = () => {
       return;
     }
 
+    // Map the new form to the SAME payload shape the backend already expects
+    const extraNotes = [
+      formData.guardianName
+        ? `Parent/Guardian: ${formData.guardianName}`
+        : "",
+      formData.comments,
+    ]
+      .filter(Boolean)
+      .join(" | ");
+
+    const payload = {
+      fullname: formData.fullname,
+      age: formData.age,
+      school: formData.organization,
+      grade: formData.level,
+      parentName: formData.guardianName || formData.fullname,
+      parentPhone: formData.phone,
+      parentWhatsapp: formData.whatsapp,
+      parentEmail: formData.email,
+      mode: formData.mode,
+      courseInterest: formData.courseInterest,
+      experience: formData.experience,
+      medical: "",
+      hear: formData.hear,
+      comments: extraNotes,
+    };
+
     try {
-      await axios.post(`https://eduproapi.vercel.app/api/bootcamp`, formData);
+      setSubmitting(true);
+      await axios.post(`https://eduproapi.vercel.app/api/bootcamp`, payload);
       setShowSuccessModal(true);
       setFormData(initialState);
     } catch (err) {
       console.error("Error registering:", err);
       toast.error("Unable to submit");
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -89,23 +124,33 @@ const Innovate = () => {
                     <h4
                       style={{
                         textAlign: "center",
-                        marginBottom: "40px",
+                        marginBottom: "10px",
                         marginTop: "40px",
                         color: "#042954",
                       }}
                     >
-                      Coding &amp; Robotics Bootcamp Registration
+                      Edu Pro Tech Academy Registration
                     </h4>
+                    <p
+                      style={{
+                        textAlign: "center",
+                        marginBottom: "40px",
+                        color: "#042954",
+                      }}
+                    >
+                      Learn in-demand tech skills anytime. Register your
+                      interest and our team will reach out.
+                    </p>
 
                     <div className="row">
-                      {/* Child's Full Name */}
+                      {/* Full Name */}
                       <div className="col-xl-6 col-md-6">
                         <div className="post-input post-input-2">
                           <label
                             htmlFor="fullname"
                             className="post-input-label-defualt"
                           >
-                            Child's Full Name *
+                            Full Name *
                           </label>
                           <input
                             type="text"
@@ -131,8 +176,8 @@ const Innovate = () => {
                             type="number"
                             name="age"
                             id="age"
-                            min="1"
-                            max="25"
+                            min="5"
+                            max="80"
                             value={formData.age}
                             onChange={handleChange}
                             required
@@ -140,120 +185,120 @@ const Innovate = () => {
                         </div>
                       </div>
 
-                      {/* Current School */}
+                      {/* Phone */}
                       <div className="col-xl-6 col-md-6">
                         <div className="post-input post-input-2">
                           <label
-                            htmlFor="school"
+                            htmlFor="phone"
                             className="post-input-label-defualt"
                           >
-                            Current School
-                          </label>
-                          <input
-                            type="text"
-                            name="school"
-                            id="school"
-                            value={formData.school}
-                            onChange={handleChange}
-                          />
-                        </div>
-                      </div>
-
-                      {/* Class/Grade Level */}
-                      <div className="col-xl-6 col-md-6">
-                        <div className="post-input post-input-2">
-                          <label
-                            htmlFor="grade"
-                            className="post-input-label-defualt"
-                          >
-                            Class/Grade Level *
-                          </label>
-                          <input
-                            type="text"
-                            name="grade"
-                            id="grade"
-                            value={formData.grade}
-                            onChange={handleChange}
-                            required
-                          />
-                        </div>
-                      </div>
-
-                      {/* Parent/Guardian Name */}
-                      <div className="col-xl-6 col-md-6">
-                        <div className="post-input post-input-2">
-                          <label
-                            htmlFor="parentName"
-                            className="post-input-label-defualt"
-                          >
-                            Parent/Guardian Full Name *
-                          </label>
-                          <input
-                            type="text"
-                            name="parentName"
-                            id="parentName"
-                            value={formData.parentName}
-                            onChange={handleChange}
-                            required
-                          />
-                        </div>
-                      </div>
-
-                      {/* Parent Phone */}
-                      <div className="col-xl-6 col-md-6">
-                        <div className="post-input post-input-2">
-                          <label
-                            htmlFor="parentPhone"
-                            className="post-input-label-defualt"
-                          >
-                            Parent/Guardian Phone Number *
+                            Phone Number *
                           </label>
                           <input
                             type="tel"
-                            name="parentPhone"
-                            id="parentPhone"
-                            value={formData.parentPhone}
+                            name="phone"
+                            id="phone"
+                            value={formData.phone}
                             onChange={handleChange}
                             required
                           />
                         </div>
                       </div>
 
-                      {/* Parent WhatsApp */}
+                      {/* WhatsApp */}
                       <div className="col-xl-6 col-md-6">
                         <div className="post-input post-input-2">
                           <label
-                            htmlFor="parentWhatsapp"
+                            htmlFor="whatsapp"
                             className="post-input-label-defualt"
                           >
-                            Parent/Guardian WhatsApp Number (if different)
+                            WhatsApp Number (if different)
                           </label>
                           <input
                             type="tel"
-                            name="parentWhatsapp"
-                            id="parentWhatsapp"
-                            value={formData.parentWhatsapp}
+                            name="whatsapp"
+                            id="whatsapp"
+                            value={formData.whatsapp}
                             onChange={handleChange}
                           />
                         </div>
                       </div>
 
-                      {/* Parent Email */}
+                      {/* Email */}
                       <div className="col-xl-6 col-md-6">
                         <div className="post-input post-input-2">
                           <label
-                            htmlFor="parentEmail"
+                            htmlFor="email"
                             className="post-input-label-defualt"
                           >
-                            Parent/Guardian Email Address *
+                            Email Address *
                           </label>
                           <input
                             type="email"
-                            name="parentEmail"
-                            id="parentEmail"
-                            value={formData.parentEmail}
+                            name="email"
+                            id="email"
+                            value={formData.email}
                             onChange={handleChange}
                             required
+                          />
+                        </div>
+                      </div>
+
+                      {/* Education level / occupation */}
+                      <div className="col-xl-6 col-md-6">
+                        <div className="post-input post-input-2">
+                          <label
+                            htmlFor="level"
+                            className="post-input-label-defualt"
+                          >
+                            Education Level / Occupation *
+                          </label>
+                          <input
+                            type="text"
+                            name="level"
+                            id="level"
+                            placeholder="e.g. SS2, Undergraduate, Engineer"
+                            value={formData.level}
+                            onChange={handleChange}
+                            required
+                          />
+                        </div>
+                      </div>
+
+                      {/* School / Workplace */}
+                      <div className="col-xl-6 col-md-6">
+                        <div className="post-input post-input-2">
+                          <label
+                            htmlFor="organization"
+                            className="post-input-label-defualt"
+                          >
+                            School / Workplace
+                          </label>
+                          <input
+                            type="text"
+                            name="organization"
+                            id="organization"
+                            value={formData.organization}
+                            onChange={handleChange}
+                          />
+                        </div>
+                      </div>
+
+                      {/* Guardian (optional) */}
+                      <div className="col-xl-6 col-md-6">
+                        <div className="post-input post-input-2">
+                          <label
+                            htmlFor="guardianName"
+                            className="post-input-label-defualt"
+                          >
+                            Parent/Guardian Name (if under 18)
+                          </label>
+                          <input
+                            type="text"
+                            name="guardianName"
+                            id="guardianName"
+                            value={formData.guardianName}
+                            onChange={handleChange}
                           />
                         </div>
                       </div>
@@ -284,14 +329,14 @@ const Innovate = () => {
                         </div>
                       </div>
 
-                      {/* Prior Experience */}
+                      {/* Experience */}
                       <div className="col-xl-6 col-md-6">
                         <div className="post-input post-input-2">
                           <label
                             htmlFor="experience"
                             className="post-input-label-defualt"
                           >
-                            Prior Coding/Robotics Experience
+                            Current Tech Experience
                           </label>
                           <select
                             name="experience"
@@ -311,11 +356,46 @@ const Innovate = () => {
                         </div>
                       </div>
 
-                      {/* Course Interest (checkboxes) */}
+                      {/* How did you hear */}
+                      <div className="col-xl-6 col-md-6">
+                        <div className="post-input post-input-2">
+                          <label
+                            htmlFor="hear"
+                            className="post-input-label-defualt"
+                          >
+                            How did you hear about us? *
+                          </label>
+                          <select
+                            name="hear"
+                            id="hear"
+                            value={formData.hear}
+                            onChange={handleChange}
+                            required
+                            className="post-input-field"
+                          >
+                            <option value="" disabled>
+                              Select an option
+                            </option>
+                            <option value="Flyer">Flyer</option>
+                            <option value="From a friend">From a friend</option>
+                            <option value="From Instagram">
+                              From Instagram
+                            </option>
+                            <option value="From WhatsApp">From WhatsApp</option>
+                            <option value="From Facebook">From Facebook</option>
+                            <option value="From the website">
+                              From the website
+                            </option>
+                            <option value="Other">Other</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      {/* Course Interest */}
                       <div className="col-xl-12">
                         <div className="post-input post-input-2">
                           <label className="post-input-label-defualt">
-                            Course Interest * (select all that apply)
+                            Skills You Want to Learn * (select all that apply)
                           </label>
                           <div
                             style={{
@@ -338,9 +418,9 @@ const Innovate = () => {
                               >
                                 <input
                                   type="checkbox"
-                                  checked={(formData.courseInterest || []).includes(
-                                    course
-                                  )}
+                                  checked={(
+                                    formData.courseInterest || []
+                                  ).includes(course)}
                                   onChange={() => handleCourseToggle(course)}
                                 />
                                 {course}
@@ -350,68 +430,7 @@ const Innovate = () => {
                         </div>
                       </div>
 
-                      {/* Allergies / Medical */}
-                      <div className="col-xl-12">
-                        <div className="post-input post-input-2">
-                          <label
-                            htmlFor="medical"
-                            className="post-input-label-defualt"
-                          >
-                            Any Allergies or Medical Conditions We Should Know
-                            About?
-                          </label>
-                          <textarea
-                            id="medical"
-                            name="medical"
-                            value={formData.medical}
-                            onChange={handleChange}
-                            placeholder="Type here, or write 'None'"
-                          ></textarea>
-                        </div>
-                      </div>
-
-                      {/* How did you hear about us */}
-                      <div className="col-xl-6 col-md-6">
-                        <div className="post-input post-input-2">
-                          <label
-                            htmlFor="hear"
-                            className="post-input-label-defualt"
-                          >
-                            How did you hear about this bootcamp? *
-                          </label>
-                          <select
-                            name="hear"
-                            id="hear"
-                            value={formData.hear}
-                            onChange={handleChange}
-                            required
-                            className="post-input-field"
-                          >
-                            <option value="" disabled>
-                              Select an option
-                            </option>
-                            <option value="Flyer">Flyer</option>
-                            <option value="From a friend">
-                              From a friend
-                            </option>
-                            <option value="From Instagram">
-                              From Instagram
-                            </option>
-                            <option value="From WhatsApp">
-                              From WhatsApp
-                            </option>
-                            <option value="From Facebook">
-                              From Facebook
-                            </option>
-                            <option value="From the website">
-                              From the website
-                            </option>
-                            <option value="Other">Other</option>
-                          </select>
-                        </div>
-                      </div>
-
-                      {/* Additional Comments */}
+                      {/* Comments */}
                       <div className="col-xl-12">
                         <div className="post-input post-input-2">
                           <label
@@ -431,52 +450,12 @@ const Innovate = () => {
                       </div>
                     </div>
 
-                    <div
-                      style={{
-                        background: "#f0f6ff",
-                        border: "1px solid #042954",
-                        borderRadius: "10px",
-                        padding: "20px 24px",
-                        marginBottom: "24px",
-                      }}
-                    >
-                      <p
-                        style={{
-                          fontWeight: 700,
-                          color: "#042954",
-                          marginBottom: "10px",
-                          fontSize: "15px",
-                        }}
-                      >
-                        Payment Details — ₦25,000 Registration Fee
-                      </p>
-                      <p style={{ color: "#042954", margin: "4px 0" }}>
-                        Bank: <strong>Access Bank</strong>
-                      </p>
-                      <p style={{ color: "#042954", margin: "4px 0" }}>
-                        Account Name: <strong>Olaniyi Hope Oluwaseun</strong>
-                      </p>
-                      <p style={{ color: "#042954", margin: "4px 0" }}>
-                        Account Number: <strong>1486693016</strong>
-                      </p>
-                      <p
-                        style={{
-                          color: "#042954",
-                          margin: "10px 0 0",
-                          fontSize: "13px",
-                        }}
-                      >
-                        Please make payment and keep your receipt/proof of
-                        payment. You may be asked to share it after
-                        registering.
-                      </p>
-                    </div>
-
                     <button
                       type="submit"
+                      disabled={submitting}
                       className="sasup-theme-btn sasup-theme-btn-2 transition-5"
                     >
-                      Submit Registration
+                      {submitting ? "Submitting..." : "Submit Registration"}
                     </button>
                   </form>
                   <p className="ajax-response"></p>
@@ -514,7 +493,10 @@ const Innovate = () => {
                     <a style={{ color: "#042954" }}>
                       +(234) 703 841 2640, +(234) 816 505 1826
                     </a>
-                    <a style={{ color: "#042954" }} href="mailto:info@edupro.com.ng">
+                    <a
+                      style={{ color: "#042954" }}
+                      href="mailto:info@edupro.com.ng"
+                    >
                       info@edupro.com.ng
                     </a>
                   </div>
@@ -673,31 +655,10 @@ const Innovate = () => {
             <h4 style={{ color: "#042954", marginBottom: "10px" }}>
               Registration Successful!
             </h4>
-            <p style={{ color: "#042954", marginBottom: "20px" }}>
-              Thank you for registering for the Coding &amp; Robotics
-              Bootcamp. Please complete payment of{" "}
-              <strong>₦25,000</strong> to the account below to secure your
-              spot.
+            <p style={{ color: "#042954", marginBottom: "22px" }}>
+              Thank you for registering for Edu Pro Tech Academy. Our team
+              will contact you shortly with the next steps.
             </p>
-            <div
-              style={{
-                background: "#f0f6ff",
-                borderRadius: "10px",
-                padding: "16px",
-                marginBottom: "22px",
-                textAlign: "left",
-              }}
-            >
-              <p style={{ color: "#042954", margin: "4px 0" }}>
-                Bank: <strong>Access Bank</strong>
-              </p>
-              <p style={{ color: "#042954", margin: "4px 0" }}>
-                Account Name: <strong>Olaniyi Hope Oluwaseun</strong>
-              </p>
-              <p style={{ color: "#042954", margin: "4px 0" }}>
-                Account Number: <strong>1486693016</strong>
-              </p>
-            </div>
             <button
               type="button"
               className="sasup-theme-btn sasup-theme-btn-2 transition-5"
