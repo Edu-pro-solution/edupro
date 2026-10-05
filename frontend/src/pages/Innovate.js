@@ -6,7 +6,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import "./innovate.css";
 
-// Internal state uses friendly names for the new form
 const initialState = {
   fullname: "",
   age: "",
@@ -17,7 +16,7 @@ const initialState = {
   whatsapp: "",
   email: "",
   mode: "",
-  courseInterest: [],
+  courseInterest: "", // single selection (string)
   experience: "",
   hear: "",
   comments: "",
@@ -45,24 +44,11 @@ const Innovate = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleCourseToggle = (course) => {
-    setFormData((prev) => {
-      const currentList = prev.courseInterest || [];
-      const already = currentList.includes(course);
-      return {
-        ...prev,
-        courseInterest: already
-          ? currentList.filter((c) => c !== course)
-          : [...currentList, course],
-      };
-    });
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if ((formData.courseInterest || []).length === 0) {
-      toast.error("Please select at least one course");
+    if (!formData.courseInterest) {
+      toast.error("Please select the skill you want to learn");
       return;
     }
 
@@ -86,7 +72,8 @@ const Innovate = () => {
       parentWhatsapp: formData.whatsapp,
       parentEmail: formData.email,
       mode: formData.mode,
-      courseInterest: formData.courseInterest,
+      // backend expects an array, so wrap the single choice
+      courseInterest: [formData.courseInterest],
       experience: formData.experience,
       medical: "",
       hear: formData.hear,
@@ -303,6 +290,35 @@ const Innovate = () => {
                         </div>
                       </div>
 
+                      {/* Skill to learn (single select) */}
+                      <div className="col-xl-6 col-md-6">
+                        <div className="post-input post-input-2">
+                          <label
+                            htmlFor="courseInterest"
+                            className="post-input-label-defualt"
+                          >
+                            Skill You Want to Learn *
+                          </label>
+                          <select
+                            name="courseInterest"
+                            id="courseInterest"
+                            value={formData.courseInterest}
+                            onChange={handleChange}
+                            required
+                            className="post-input-field"
+                          >
+                            <option value="" disabled>
+                              Select a skill
+                            </option>
+                            {COURSE_OPTIONS.map((course) => (
+                              <option key={course} value={course}>
+                                {course}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+
                       {/* Preferred Mode */}
                       <div className="col-xl-6 col-md-6">
                         <div className="post-input post-input-2">
@@ -388,45 +404,6 @@ const Innovate = () => {
                             </option>
                             <option value="Other">Other</option>
                           </select>
-                        </div>
-                      </div>
-
-                      {/* Course Interest */}
-                      <div className="col-xl-12">
-                        <div className="post-input post-input-2">
-                          <label className="post-input-label-defualt">
-                            Skills You Want to Learn * (select all that apply)
-                          </label>
-                          <div
-                            style={{
-                              display: "flex",
-                              flexWrap: "wrap",
-                              gap: "16px",
-                              marginTop: "8px",
-                            }}
-                          >
-                            {COURSE_OPTIONS.map((course) => (
-                              <label
-                                key={course}
-                                style={{
-                                  display: "flex",
-                                  alignItems: "center",
-                                  gap: "6px",
-                                  color: "#042954",
-                                  fontWeight: "normal",
-                                }}
-                              >
-                                <input
-                                  type="checkbox"
-                                  checked={(
-                                    formData.courseInterest || []
-                                  ).includes(course)}
-                                  onChange={() => handleCourseToggle(course)}
-                                />
-                                {course}
-                              </label>
-                            ))}
-                          </div>
                         </div>
                       </div>
 
